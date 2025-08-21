@@ -1,0 +1,22 @@
+{
+  "name": "kryve-website",
+  "version": "1.0.0",
+  "scripts": {
+    "dev:css": "npx @tailwindcss/cli -i ./public/input.css -o ./public/style.css --watch",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "axios": "^1.11.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
+    "tailwindcss": "^4.1.11"
+  },
+  "description": "",
+  "main": "server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

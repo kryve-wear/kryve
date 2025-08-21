@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop All - KRYVE</title>
+
+  <!-- KEEP YOUR EXISTING CDNs / CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome for social media icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="./style.css">
+
+  <style>
+    /* panel visuals */
+    #filter-panel {
+      background: #fbfbfb;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(15,23,42,0.06);
+      transition: width .28s ease, transform .28s ease;
+      overflow: visible;
+    }
+    @media (min-width: 768px) {
+      #filter-panel { width: 18.5rem; }
+      #filter-panel.collapsed { width: 3rem; }
+      #filter-panel.collapsed .filters-content { opacity: 0; pointer-events: none; transform: translateX(-6px); }
+      #filter-panel .filters-content { transition: opacity .18s ease, transform .18s ease; }
+    }
+    @media (max-width: 767px) {
+      #filter-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 18rem;
+        transform: translateX(100%);
+        z-index: 60;
+        box-shadow: 0 12px 30px rgba(2,6,23,0.12);
+      }
+      #filter-panel.open { transform: translateX(0); }
+      #filter-panel .filters-content { height: calc(100vh - 64px); overflow-y: auto; }
+      #filter-backdrop { z-index: 50; }
+    }
+    .filter-handle {
+      position: absolute;
+      right: -2.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      cursor: pointer;
+      z-index: 10;
+    }
+    .rotate-180 { transform: rotate(180deg) !important; }
+    #search-bar {
+      border-radius: 9999px;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.95rem;
+    }
+    input[type="checkbox"] { accent-color: #00E6D2; }
+    .color-swatch { width: 1.25rem; height: 1.25rem; border-radius: 9999px; border: 1px solid #e5e7eb; display:inline-block; cursor:pointer; }
+    #product-grid { transition: grid-template-columns .28s ease, margin-left .28s ease; }
+    .filters-section-title { color: #374151; font-weight: 600; margin-bottom: .5rem; }
+    .filter-panel-inner { padding-bottom: 1.5rem; }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#00E6D2",
+            dark: "#1C1C1C",
+            light: "#F6F5F3",
+            muted: "#6B7280",
+          },
+          fontFamily: {
+            heading: ["Montserrat", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="font-body text-gray-800 bg-light">
+
+  <!-- Navbar -->
+  <header class="bg-light shadow-sm sticky top-0 z-50">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-3 items-center py-5">
+        <div class="flex items-center gap-3">
+          <img src="./assets/icon.png" alt="KRYVE" class="h-8 w-auto rounded-full">
+          <span class="font-heading font-extrabold text-lg">KRYVE</span>
+        </div>
+        <nav class="hidden md:flex justify-center space-x-6 text-sm font-bold">
+          <a href="index.html" class="hover:text-primary transition-colors duration-300">HOME</a>
+          <a href="#new-drops" class="hover:text-primary transition-colors duration-300">NEW DROPS</a>
+          <a href="#collections" class="hover:text-primary transition-colors duration-300">COLLECTIONS</a>
+          <a href="#lookbook" class="hover:text-primary transition-colors duration-300">LOOKBOOK</a>
+          <a href="#story" class="hover:text-primary transition-colors duration-300">ABOUT</a>
+        </nav>
+        <div class="flex justify-end items-center space-x-4 text-gray-700">
+          <a href="#" class="p-2 rounded-full hover:bg-gray-200 transition-colors duration-300">
+            <i class="fas fa-user"></i>
+          </a>
+          <a href="#" class="p-2 rounded-full hover:bg-gray-200 transition-colors duration-300">
+            <i class="fas fa-bag-shopping"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- main container -->
+  <div class="container mx-auto p-4">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+      <div class="flex w-full sm:w-auto gap-2 items-center">
+        <input type="text" id="search-bar" placeholder="Search products..." class="flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-primary" />
+        <button id="filter-toggle-mobile" class="sm:hidden p-2 border border-gray-300 rounded hover:bg-gray-100 ml-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8m-8 6h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="filter-backdrop" class="fixed inset-0 bg-black bg-opacity-40 z-40 hidden"></div>
+
+    <div class="flex gap-4 items-start">
+      <!-- FILTER PANEL -->
+      <aside id="filter-panel" class="relative flex-shrink-0">
+        <div id="filter-toggle-desktop" class="filter-handle hidden md:flex" title="Hide filters">
+          <svg id="filter-arrow" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="filters-content filter-panel-inner p-4">
+          <h4 class="filters-section-title">Filters</h4>
+          <div class="border-b pb-3 mb-3">
+            <label class="flex items-center space-x-2 mb-2">
+              <input type="checkbox" id="f-instock" />
+              <span>In Stock</span>
+            </label>
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" id="f-onsale" />
+              <span>On Sale</span>
+            </label>
+          </div>
+          <div class="border-b pb-3 mb-3">
+            <label class="block font-medium mb-2">Price Range</label>
+            <div class="flex items-center gap-2">
+              <input type="number" id="price-min" placeholder="Min" class="border rounded px-2 py-1 w-24" />
+              <span class="text-gray-400">—</span>
+              <input type="number" id="price-max" placeholder="Max" class="border rounded px-2 py-1 w-24" />
+            </div>
+          </div>
+          <div class="border-b pb-3 mb-3">
+            <label class="block font-medium mb-2">Category</label>
+            <select id="filter-category" class="border rounded px-2 py-1 w-full">
+              <option value="all">All</option>
+              <option>Tees</option>
+              <option>Hoodies</option>
+              <option>Pants</option>
+              <option>Accessories</option>
+            </select>
+          </div>
+          <div class="border-b pb-3 mb-3">
+            <label class="block font-medium mb-2">Size</label>
+            <div class="flex flex-wrap gap-2">
+              <button class="px-3 py-1 border rounded text-sm filter-size">S</button>
+              <button class="px-3 py-1 border rounded text-sm filter-size">M</button>
+              <button class="px-3 py-1 border rounded text-sm filter-size">L</button>
+              <button class="px-3 py-1 border rounded text-sm filter-size">XL</button>
+            </div>
+          </div>
+          <div>
+            <label class="block font-medium mb-2">Color</label>
+            <div class="flex gap-3">
+              <span class="color-swatch bg-black" data-color="black"></span>
+              <span class="color-swatch bg-white" data-color="white"></span>
+              <span class="color-swatch bg-red-500" data-color="red"></span>
+              <span class="color-swatch bg-blue-500" data-color="blue"></span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- PRODUCT GRID -->
+      <section id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 flex-1">
+        <!-- Product Cards -->
+        <a href="product.html" class="block bg-white rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+          <img class="w-full h-64 object-cover" src="./assets/product-image/hoodie.jpg" alt="Streetwear Hoodie">
+          <div class="px-4 py-3">
+            <h3 class="font-bold text-lg truncate">Streetwear Hoodie</h3>
+          </div>
+        </a>
+        <a href="product.html" class="block bg-white rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+          <img class="w-full h-64 object-cover" src="./assets/product-image/sneakers.jpg" alt="Classic Sneakers">
+          <div class="px-4 py-3">
+            <h3 class="font-bold text-lg truncate">Classic Sneakers</h3>
+          </div>
+        </a>
+        <a href="product.html" class="block bg-white rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+          <img class="w-full h-64 object-cover" src="./assets/product-image/sweatpants.jpg" alt="Graphic Tee">
+          <div class="px-4 py-3">
+            <h3 class="font-bold text-lg truncate">Streetwear Sweatpants</h3>
+          </div>
+        </a>
+        <a href="product.html" class="block bg-white rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+          <img class="w-full h-64 object-cover" src="./assets/product-image/cap-1.jpg" alt="Urban Cap">
+          <div class="px-4 py-3">
+            <h3 class="font-bold text-lg truncate">Urban Cap</h3>
+          </div>
+        </a>
+        <a href="product.html" class="block bg-white rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+          <img class="w-full h-64 object-cover" src="./assets/product-image/chest-bag.jpg" alt="Denim Jacket">
+          <div class="px-4 py-3">
+            <h3 class="font-bold text-lg truncate">Chest Bag</h3>
+          </div>
+        </a>
+        <a href="product.html" class="block bg-white rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+          <img class="w-full h-64 object-cover" src="./assets/product-image/socks.jpg" alt="Street Tote Bag">
+          <div class="px-4 py-3">
+            <h3 class="font-bold text-lg truncate">Socks</h3>
+          </div>
+        </a>
+      </section>
+    </div>
+  </div>
+
+    <!-- Footer Section -->
+    <footer class="bg-dark text-white pt-20 pb-10">
+        <div class="container mx-auto px-6">
+            <!-- Top Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                
+                <!-- Brand -->
+                <div class="space-y-5">
+                    <h3 class="text-2xl font-heading font-bold">KRYVE</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        Redefining street culture through premium streetwear and authentic design.
+                    </p>
+                    <div class="flex gap-5 pt-2">
+                        <a href="#" class="hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-instagram fa-lg"></i>
+                        </a>
+                        <a href="#" class="hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-twitter fa-lg"></i>
+                        </a>
+                        <a href="#" class="hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-tiktok fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Shop -->
+                <div class="space-y-5">
+                    <h4 class="font-heading font-bold text-lg">SHOP</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#new-drops" class="hover:text-white transition-colors duration-300">New Arrivals</a></li>
+                        <li><a href="#collections" class="hover:text-white transition-colors duration-300">Collections</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Sale</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="space-y-5">
+                    <h4 class="font-heading font-bold text-lg">SUPPORT</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Size Guide</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Returns</a></li>
+                        <li><a href="./contact.html" class="hover:text-white transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div class="space-y-5">
+                    <h4 class="font-heading font-bold text-lg">COMPANY</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="./about.html" class="hover:text-white transition-colors duration-300">About</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Careers</a></li>
+                        <li><a href="./terms.html" class="hover:text-white transition-colors duration-300">Terms & Conditions</a></li>
+                        <li><a href="./privacy.html" class="hover:text-white transition-colors duration-300">Privacy Policy</a></li>
+                        <li><a href="./returns.html" class="hover:text-white transition-colors duration-300">Other Policies</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="border-t border-gray-700 pt-8 text-sm text-gray-400 text-center">
+                © 2025 KRYVE. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

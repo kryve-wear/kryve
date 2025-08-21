@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujlM8fT3Zg6O6bB7wJ7n7Gf3y92y0p8tA7t8t/L+2u4E0xI+VfN+w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Product Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css" />
+
+  <script>
+            tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#00E6D2",
+                        dark: "#1C1C1C",
+                        light: "#F6F5F3",
+                        muted: "#6B7280",
+                    },
+                    fontFamily: {
+                        heading: ["Montserrat", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        }
+</script>
+
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar -->
+    <header class="bg-light shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-6">
+            <!-- Main navigation row -->
+            <div class="grid grid-cols-3 items-center py-5">
+                <!-- Left: Logo -->
+                <div class="flex items-center gap-3">
+                    <img src="./assets/icon.png" alt="KRYVE" class="h-8 w-auto rounded-full">
+                    <span class="font-heading font-extrabold text-lg">KRYVE</span>
+                </div>
+
+                <!-- Center: Navigation Links -->
+                <nav class="hidden md:flex justify-center space-x-6 text-sm font-bold">
+                    <a href="index.html" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">HOME</a>
+                    <a href="#new-drops" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">NEW DROPS</a>
+                    <a href="#collections" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">COLLECTIONS</a>
+                    <a href="#lookbook" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">LOOKBOOK</a>
+                    <a href="#story" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">ABOUT</a>
+                </nav>
+
+                <!-- Right: Icons -->
+                <div class="flex justify-end items-center space-x-4 text-gray-700">
+                    <a href="#" class="p-2 rounded-full hover:bg-gray-200 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a1.5 1.5 0 01-1.465 1.956A4.48 4.48 0 0012 18.75a4.48 4.48 0 00-2.583 1.001 1.5 1.5 0 01-1.465-1.956m11.963 0a1.5 1.5 0 00-1.465-1.956m-8.995 0a1.5 1.5 0 00-1.465 1.956m0 0a1.5 1.5 0 101.465-1.956M12 10.5a3 3 0 110-6 3 3 0 010 6z" /></svg>
+                    </a>
+                    <a href="#" class="p-2 rounded-full hover:bg-gray-200 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.551l-.552-1.655A2.25 2.25 0 0014.286 6H9.714a2.25 2.25 0 00-2.115 1.694l-.552 1.655C4.853 10.05 3.5 11.56 3.5 13.5v3a2.25 2.25 0 002.25 2.25h12.5a2.25 2.25 0 002.25-2.25v-3c0-1.94-1.353-3.45-3.144-3.951z" /></svg>
+                    </a>
+                </div>
+            </div>
+    </header>
+  <!-- Product Section -->
+  <main class="container mx-auto px-4 py-8">
+    <div id="product-loader" class="animate-pulse grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div class="bg-gray-200 h-96 rounded"></div>
+      <div class="space-y-4">
+        <div class="bg-gray-200 h-6 w-1/2 rounded"></div>
+        <div class="bg-gray-200 h-6 w-1/3 rounded"></div>
+        <div class="bg-gray-200 h-4 w-2/3 rounded"></div>
+        <div class="bg-gray-200 h-10 w-1/4 rounded"></div>
+        <div class="bg-gray-200 h-20 w-full rounded"></div>
+      </div>
+    </div>
+
+    <div id="product-content" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Left: Images -->
+      <div>
+        <img id="main-image" class="w-full h-96 object-cover rounded-lg transition-opacity duration-300" src="" alt="Product image">
+        <div id="thumbnails" class="flex gap-2 mt-4 overflow-x-auto"></div>
+      </div>
+
+      <!-- Right: Details -->
+      <div>
+        <h1 id="product-title" class="text-2xl font-bold mb-2"></h1>
+        <p id="product-category" class="text-gray-500 mb-4"></p>
+        <p id="product-price" class="text-xl font-semibold mb-4"></p>
+
+        <!-- Size selector -->
+        <div class="mb-4">
+          <h3 class="font-semibold mb-2">Size</h3>
+          <div id="size-options" class="flex gap-2"></div>
+        </div>
+
+        <!-- Color selector -->
+        <div class="mb-4">
+          <h3 class="font-semibold mb-2">Color</h3>
+          <div id="color-options" class="flex gap-2"></div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex gap-4 mb-6">
+          <button class="bg-primary text-white px-6 py-2 rounded hover:bg-primary-dark transition">Buy Now</button>
+          <button id="add-to-cart" class="flex items-center gap-2 border border-gray-300 px-6 py-2 rounded hover:bg-gray-100 transition">
+            <svg id="cart-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h13L17 13M7 13H5.4M17 13l1.6 7" />
+            </svg>
+            Add to Cart
+          </button>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <h3 class="font-semibold mb-2">Description</h3>
+          <p id="product-description" class="text-gray-600"></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Recommendations -->
+  <section class="container mx-auto px-4 py-8">
+    <h2 class="text-xl font-bold mb-4">You Might Also Like</h2>
+    <div id="recommendations" class="grid grid-cols-2 sm:grid-cols-4 gap-4"></div>
+  </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-dark text-white pt-20 pb-10">
+        <div class="container mx-auto px-6">
+            <!-- Top Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                
+                <!-- Brand -->
+                <div class="space-y-5">
+                    <h3 class="text-2xl font-heading font-bold">KRYVE</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        Redefining street culture through premium streetwear and authentic design.
+                    </p>
+                    <div class="flex gap-5 pt-2">
+                        <a href="#" class="hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-instagram fa-lg"></i>
+                        </a>
+                        <a href="#" class="hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-twitter fa-lg"></i>
+                        </a>
+                        <a href="#" class="hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-tiktok fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Shop -->
+                <div class="space-y-5">
+                    <h4 class="font-heading font-bold text-lg">SHOP</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#new-drops" class="hover:text-white transition-colors duration-300">New Arrivals</a></li>
+                        <li><a href="#collections" class="hover:text-white transition-colors duration-300">Collections</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Sale</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="space-y-5">
+                    <h4 class="font-heading font-bold text-lg">SUPPORT</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Size Guide</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Returns</a></li>
+                        <li><a href="./contact.html" class="hover:text-white transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div class="space-y-5">
+                    <h4 class="font-heading font-bold text-lg">COMPANY</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="./about.html" class="hover:text-white transition-colors duration-300">About</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Careers</a></li>
+                        <li><a href="./terms.html" class="hover:text-white transition-colors duration-300">Terms & Conditions</a></li>
+                        <li><a href="./privacy.html" class="hover:text-white transition-colors duration-300">Privacy Policy</a></li>
+                        <li><a href="./returns.html" class="hover:text-white transition-colors duration-300">Other Policies</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="border-t border-gray-700 pt-8 text-sm text-gray-400 text-center">
+                © 2025 KRYVE. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+  <script src="product.js"></script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - KRYVE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+   <script>
+        // Inline Tailwind config to use custom colors and fonts
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#00E6D2",
+                        dark: "#1C1C1C",
+                        light: "#F6F5F3",
+                        muted: "#6B7280",
+                    },
+                    fontFamily: {
+                        heading: ["Montserrat", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+  <!-- Navbar -->
+   <!-- Navbar -->
+    <header class="bg-light shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-6">
+            <!-- Main navigation row -->
+            <div class="grid grid-cols-3 items-center py-5">
+                <!-- Left: Logo -->
+                <div class="flex items-center gap-3">
+                    <img src="./assets/icon.png" alt="KRYVE" class="h-8 w-auto rounded-full">
+                    <span class="font-heading font-extrabold text-lg">KRYVE</span>
+                </div>
+
+                <!-- Center: Navigation Links -->
+                <nav class="hidden md:flex justify-center space-x-6 text-sm font-bold">
+                    <a href="index.html" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">HOME</a>
+                    <a href="#new-drops" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">NEW DROPS</a>
+                    <a href="#collections" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">COLLECTIONS</a>
+                    <a href="#lookbook" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">LOOKBOOK</a>
+                    <a href="./about.html" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">ABOUT</a>
+                </nav>
+
+                <!-- Right: Icons -->
+                <div class="flex justify-end items-center space-x-4 text-gray-700">
+                    <a href="#" class="p-2 rounded-full hover:bg-gray-200 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a1.5 1.5 0 01-1.465 1.956A4.48 4.48 0 0012 18.75a4.48 4.48 0 00-2.583 1.001 1.5 1.5 0 01-1.465-1.956m11.963 0a1.5 1.5 0 00-1.465-1.956m-8.995 0a1.5 1.5 0 00-1.465 1.956m0 0a1.5 1.5 0 101.465-1.956M12 10.5a3 3 0 110-6 3 3 0 010 6z" /></svg>
+                    </a>
+                    <a href="#" class="p-2 rounded-full hover:bg-gray-200 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.551l-.552-1.655A2.25 2.25 0 0014.286 6H9.714a2.25 2.25 0 00-2.115 1.694l-.552 1.655C4.853 10.05 3.5 11.56 3.5 13.5v3a2.25 2.25 0 002.25 2.25h12.5a2.25 2.25 0 002.25-2.25v-3c0-1.94-1.353-3.45-3.144-3.951z" /></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+  <!-- Hero -->
+  <section class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-20">
+    <div class="container mx-auto px-6 text-center">
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Get in Touch</h1>
+      <p class="text-lg md:text-xl max-w-2xl mx-auto">Have a question or want to work with us? We’d love to hear from you.</p>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="container mx-auto px-6 py-16 grid md:grid-cols-2 gap-12">
+    
+    <!-- Contact Form -->
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <h2 class="text-2xl font-bold mb-6">Send us a message</h2>
+      <form action="#" method="POST" class="space-y-4">
+        <div>
+          <label for="name" class="block text-sm font-medium mb-1">Name</label>
+          <input type="text" id="name" name="name" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium mb-1">Email</label>
+          <input type="email" id="email" name="email" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label for="message" class="block text-sm font-medium mb-1">Message</label>
+          <textarea id="message" name="message" rows="4" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-full font-semibold hover:bg-blue-700 transition">Send Message</button>
+      </form>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="space-y-8">
+      <h2 class="text-2xl font-bold">Contact Information</h2>
+      <p class="text-gray-700 leading-relaxed">
+        We’re here to answer your questions and help you with any inquiries.  
+        Reach out to us via email, social media, or the form alongside.
+      </p>
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <i class="fas fa-envelope text-blue-600"></i>
+          <span>kryvewear@gmail.com</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <i class="fas fa-phone text-blue-600"></i>
+          <span>+94 72 785 5685</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <i class="fas fa-map-marker-alt text-blue-600"></i>
+          <span>Kandy, Sri Lanka</span>
+        </div>
+      </div>
+      <div class="flex gap-6 text-2xl mt-6">
+        <a href="#" class="hover:text-blue-600"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="hover:text-blue-600"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="hover:text-blue-600"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+
+  </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-dark text-white pt-20 pb-10">
+        <div class="container mx-auto px-6">
+            <!-- Top Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                
+                <!-- Brand -->
+                <div class="space-y-5">
+                    <h3 class="text-2xl font-heading font-bold">KRYVE</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        Redefining street culture through premium streetwear and authentic design.
+                    </p>
+                    <div class="flex gap-5 pt-2">
+                        <a href="#" class="hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-instagram fa-lg"></i>
+                        </a>
+                        <a href="#" class="hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-twitter fa-lg"></i>
+                        </a>
+                        <a href="#" class="hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-tiktok fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Shop -->
+                <div class="space-y-5">
+                    <h4 class="font-heading font-bold text-lg">SHOP</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#new-drops" class="hover:text-white transition-colors duration-300">New Arrivals</a></li>
+                        <li><a href="#collections" class="hover:text-white transition-colors duration-300">Collections</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Sale</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="space-y-5">
+                    <h4 class="font-heading font-bold text-lg">SUPPORT</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Size Guide</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Returns</a></li>
+                        <li><a href="./contact.html" class="hover:text-white transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div class="space-y-5">
+                    <h4 class="font-heading font-bold text-lg">COMPANY</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="./about.html" class="hover:text-white transition-colors duration-300">About</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Careers</a></li>
+                        <li><a href="./terms.html" class="hover:text-white transition-colors duration-300">Terms & Conditions</a></li>
+                        <li><a href="./privacy.html" class="hover:text-white transition-colors duration-300">Privacy Policy</a></li>
+                        <li><a href="./returns.html" class="hover:text-white transition-colors duration-300">Other Policies</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="border-t border-gray-700 pt-8 text-sm text-gray-400 text-center">
+                © 2025 KRYVE. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+  <!-- Font Awesome -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</body>
+</html>
