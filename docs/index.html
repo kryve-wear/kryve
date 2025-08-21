@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRYVE - Wear Your Moment</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujlM8fT3Zg6O6bB7wJ7n7Gf3y92y0p8tA7t8t/L+2u4E0xI+VfN+w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="./style.css">
+    
+    <style>
+        /* Custom styles for the message box */
+        #message-box {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .show {
+            display: block !important;
+            opacity: 1 !important;
+        }
+
+        /* Styling for the search bar transition */
+        .search-bar-container {
+            max-height: 0;
+            overflow: hidden;
+            padding-top: 0;
+            padding-bottom: 0;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+        }
+
+        .search-bar-container.active {
+            max-height: 100px; /* Adjust as needed */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            transition: max-height 0.5s ease-in, padding 0.5s ease-in;
+        }
+    </style>
+
+    <script>
+        // Inline Tailwind config to use custom colors and fonts
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#00E6D2",
+                        dark: "#1C1C1C",
+                        light: "#F6F5F3",
+                        muted: "#6B7280",
+                    },
+                    fontFamily: {
+                        heading: ["Montserrat", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-body text-gray-800 bg-light">
+
+    <!-- Navbar -->
+    <header class="bg-light shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-6">
+            <!-- Main navigation row -->
+            <div class="grid grid-cols-3 items-center py-5">
+                <!-- Left: Logo -->
+                <div class="flex items-center gap-3">
+                    <img src="./assets/icon.png" alt="KRYVE" class="h-8 w-auto rounded-full">
+                    <span class="font-heading font-extrabold text-lg">KRYVE</span>
+                </div>
+
+                <!-- Center: Navigation Links -->
+                <nav class="hidden md:flex justify-center space-x-6 text-sm font-bold">
+                    <a href="index.html" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">HOME</a>
+                    <a href="#new-drops" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">NEW DROPS</a>
+                    <a href="#collections" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">COLLECTIONS</a>
+                    <a href="#lookbook" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">LOOKBOOK</a>
+                    <a href="./about.html" class="hover:text-primary transition-colors duration-300 whitespace-nowrap">ABOUT</a>
+                </nav>
+
+                <!-- Right: Icons -->
+                <div class="flex justify-end items-center space-x-4 text-gray-700">
+                    <!-- Search Icon -->
+                    <button id="search-icon" class="p-2 rounded-full hover:bg-gray-200 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+                    </button>
+                    <a href="#" class="p-2 rounded-full hover:bg-gray-200 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a1.5 1.5 0 01-1.465 1.956A4.48 4.48 0 0012 18.75a4.48 4.48 0 00-2.583 1.001 1.5 1.5 0 01-1.465-1.956m11.963 0a1.5 1.5 0 00-1.465-1.956m-8.995 0a1.5 1.5 0 00-1.465 1.956m0 0a1.5 1.5 0 101.465-1.956M12 10.5a3 3 0 110-6 3 3 0 010 6z" /></svg>
+                    </a>
+                    <a href="#" class="p-2 rounded-full hover:bg-gray-200 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.551l-.552-1.655A2.25 2.25 0 0014.286 6H9.714a2.25 2.25 0 00-2.115 1.694l-.552 1.655C4.853 10.05 3.5 11.56 3.5 13.5v3a2.25 2.25 0 002.25 2.25h12.5a2.25 2.25 0 002.25-2.25v-3c0-1.94-1.353-3.45-3.144-3.951z" /></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Search bar row (initially hidden) -->
+            <div id="search-bar" class="w-full search-bar-container border-t border-gray-200">
+                <div class="flex items-center gap-4">
+                    <input
+                        type="text"
+                        placeholder="Search for products..."
+                        class="flex-grow p-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+                    />
+                    <button id="close-search" class="p-2 rounded-full hover:bg-gray-200 text-gray-700 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-light py-16 md:py-24">
+        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <!-- Text content -->
+            <div class="text-center md:text-left">
+                <h1 class="text-5xl md:text-7xl leading-tight font-extrabold font-heading text-dark">
+                    STREET <span class="text-primary">CULTURE</span> REDEFINED
+                </h1>
+                <p class="mt-6 text-lg text-muted max-w-md mx-auto md:mx-0">
+                    Discover the latest drops from KRYVE. Premium streetwear that speaks your language and defines your identity.
+                </p>
+                <div class="mt-8 flex gap-4 md:gap-6 justify-center md:justify-start">
+                    <a href="./shop.html" class="bg-dark text-light px-8 py-3 font-semibold rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:scale-105">
+                        SHOP NOW
+                    </a>
+                    <a href="#lookbook" class="border border-dark text-dark px-8 py-3 font-semibold rounded-full hover:bg-dark hover:text-light transition-all duration-300 transform hover:scale-105">
+                        LOOKBOOK
+                    </a>
+                </div>
+            </div>
+
+            <!-- Image with 1:1 aspect ratio -->
+            <div class="flex justify-center md:justify-end">
+                <img 
+                    src="./assets/model.png" 
+                    alt="Hero Model" 
+                    class="w-full max-w-sm rounded-2xl shadow-xl transition-transform duration-500 hover:scale-105 aspect-square object-cover"
+                >
+            </div>
+        </div>
+    </section>
+
+    <!-- Urban Essentials Section -->
+    <section id="collections" class="bg-light py-20">
+        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <!-- Image -->
+            <div class="relative">
+                <div class="absolute inset-0 rounded-2xl animate-pulse" style="box-shadow: 0 0 28px rgba(0, 230, 210, 0.4); z-index: 0;"></div>
+                <div class="relative rounded-2xl overflow-hidden z-10 transform transition-all duration-500 hover:scale-105 hover:shadow-2xl">
+                    <img src="./assets/product-image/mockup.png" alt="Urban Essentials" class="w-full h-auto object-cover">
+                </div>
+            </div>
+
+            <!-- Text -->
+            <div>
+                <h2 class="text-3xl font-extrabold text-dark uppercase mb-4 font-heading">
+                    Urban Essentials
+                </h2>
+                <p class="text-muted mb-6 leading-relaxed max-w-lg">
+                    Our signature collection blends contemporary design with street culture. Each piece is crafted with premium materials and attention to detail that defines modern streetwear.
+                </p>
+
+                <!-- Features list with hover effect -->
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-center gap-3 group transform transition-transform duration-300 hover:translate-x-2 cursor-pointer">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary group-hover:bg-dark transition-colors duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-dark group-hover:text-primary transition-colors duration-300"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.054l-9.92 14.88a.75.75 0 01-1.12.073l-5.6-5.6a.75.75 0 011.06-1.06l4.98 4.98L18.856 5.68a.75.75 0 011.06-.054z" clip-rule="evenodd" /></svg>
+                        </span>
+                        <span class="text-dark group-hover:text-primary transition-colors duration-300">Premium cotton construction</span>
+                    </li>
+                    <li class="flex items-center gap-3 group transform transition-transform duration-300 hover:translate-x-2 cursor-pointer">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary group-hover:bg-dark transition-colors duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-dark group-hover:text-primary transition-colors duration-300"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.054l-9.92 14.88a.75.75 0 01-1.12.073l-5.6-5.6a.75.75 0 011.06-1.06l4.98 4.98L18.856 5.68a.75.75 0 011.06-.054z" clip-rule="evenodd" /></svg>
+                        </span>
+                        <span class="text-dark group-hover:text-primary transition-colors duration-300">Limited edition designs</span>
+                    </li>
+                    <li class="flex items-center gap-3 group transform transition-transform duration-300 hover:translate-x-2 cursor-pointer">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary group-hover:bg-dark transition-colors duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-dark group-hover:text-primary transition-colors duration-300"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.054l-9.92 14.88a.75.75 0 01-1.12.073l-5.6-5.6a.75.75 0 011.06-1.06l4.98 4.98L18.856 5.68a.75.75 0 011.06-.054z" clip-rule="evenodd" /></svg>
+                        </span>
+                        <span class="text-dark group-hover:text-primary transition-colors duration-300">Sustainable production</span>
+                    </li>
+                </ul>
+
+                <button class="bg-primary text-dark px-8 py-3 rounded-full font-semibold hover:bg-dark hover:text-primary transition-all duration-300 transform hover:scale-105">
+                    SHOP COLLECTION
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Drops Section -->
+<section class="my-16 px-4">
+  <!-- Title -->
+  <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-2">New Drops</h2>
+  <p class="text-center text-gray-600 mb-10">Explore our latest arrivals and find your perfect fit!</p>
+  
+  <!-- Product Cards -->
+  <div class="flex flex-wrap justify-center gap-6">
+    
+    <!-- Card 1 -->
+    <a href="product.html" class="max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+      <img class="w-full h-64 object-cover" src="./assets/product-image/hoodie.jpg" alt="Product Image 1">
+      <div class="px-6 py-4">
+        <div class="font-bold text-lg truncate">Streetwear Hoodie</div>
+      </div>
+    </a>
+    
+    <!-- Card 2 -->
+    <a href="product.html" class="max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+      <img class="w-full h-64 object-cover" src="./assets/product-image/sweatpants.jpg" alt="Product Image 2">
+      <div class="px-6 py-4">
+        <div class="font-bold text-lg truncate">Streetwear Sweatpants</div>
+      </div>
+    </a>
+    
+    <!-- Card 3 -->
+    <a href="product.html" class="max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+      <img class="w-full h-64 object-cover" src="./assets/product-image/cap-1.jpg" alt="Product Image 3">
+      <div class="px-6 py-4">
+        <div class="font-bold text-lg truncate">Urban Cap</div>
+      </div>
+    </a>
+    
+    <!-- Card 4 -->
+    <a href="product.html" class="max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+      <img class="w-full h-64 object-cover" src="./assets/product-image/chest-bag.jpg" alt="Product Image 4">
+      <div class="px-6 py-4">
+        <div class="font-bold text-lg truncate">Chest Bag</div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Browse All Button -->
+  <div class="text-center mt-10">
+    <a href="shop.html" class="bg-blue-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-700 transform transition duration-300 hover:scale-105 shadow-md">
+      Browse All Products
+    </a>
+  </div>
+</section>
+
+
+    
+    <!-- Lookbook Gallery Section -->
+    <section id="lookbook" class="bg-light py-20">
+        <div class="container mx-auto px-6">
+            <!-- Section Header -->
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-dark uppercase font-heading">
+                    The Lookbook
+                </h2>
+                <p class="text-muted mt-2 text-lg">
+                    Explore our signature styles and curated collections.
+                </p>
+                <div class="w-12 h-[3px] bg-primary mx-auto mt-4 rounded"></div>
+            </div>
+
+            <!-- Image Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Look 1 -->
+                <div class="relative overflow-hidden rounded-xl shadow-lg group">
+                    <img src="https://placehold.co/800x1000/1C1C1C/F6F5F3?text=Look+1" alt="Lookbook Image 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-dark bg-opacity-40 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div class="text-white">
+                            <h3 class="font-bold text-xl font-heading">The Urban Commuter</h3>
+                            <p class="text-sm">Cargo Pants & Oversized Tee</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Look 2 -->
+                <div class="relative overflow-hidden rounded-xl shadow-lg group">
+                    <img src="https://placehold.co/800x1000/00E6D2/1C1C1C?text=Look+2" alt="Lookbook Image 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-dark bg-opacity-40 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div class="text-white">
+                            <h3 class="font-bold text-xl font-heading">The Street Artist</h3>
+                            <p class="text-sm">Graffiti Hoodie & Denim</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Look 3 -->
+                <div class="relative overflow-hidden rounded-xl shadow-lg group">
+                    <img src="https://placehold.co/800x1000/F6F5F3/1C1C1C?text=Look+3" alt="Lookbook Image 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-dark bg-opacity-40 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div class="text-white">
+                            <h3 class="font-bold text-xl font-heading">Neon Nights</h3>
+                            <p class="text-sm">Reflective Jacket & Joggers</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Look 4 -->
+                <div class="relative overflow-hidden rounded-xl shadow-lg group">
+                    <img src="https://placehold.co/800x1000/1C1C1C/F6F5F3?text=Look+4" alt="Lookbook Image 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-dark bg-opacity-40 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div class="text-white">
+                            <h3 class="font-bold text-xl font-heading">Classic Core</h3>
+                            <p class="text-sm">Essential Hoodie & Jeans</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Look 5 -->
+                <div class="relative overflow-hidden rounded-xl shadow-lg group">
+                    <img src="https://placehold.co/800x1000/00E6D2/1C1C1C?text=Look+5" alt="Lookbook Image 5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-dark bg-opacity-40 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div class="text-white">
+                            <h3 class="font-bold text-xl font-heading">The Weekend</h3>
+                            <p class="text-sm">Signature Tee & Shorts</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Look 6 -->
+                <div class="relative overflow-hidden rounded-xl shadow-lg group">
+                    <img src="https://placehold.co/800x1000/F6F5F3/1C1C1C?text=Look+6" alt="Lookbook Image 6" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-dark bg-opacity-40 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div class="text-white">
+                            <h3 class="font-bold text-xl font-heading">The Night Out</h3>
+                            <p class="text-sm">Tech Jacket & Tapered Pants</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section id="story" class="bg-light py-20">
+        <div class="container mx-auto px-6 text-center">
+            <!-- Heading -->
+            <h2 class="text-3xl font-extrabold text-dark uppercase font-heading">
+                The KRYVE Story
+            </h2>
+            <p class="text-muted max-w-2xl mx-auto mt-3 mb-12">
+                Born from the streets, crafted for the culture. KRYVE represents the intersection of urban authenticity and premium quality.
+            </p>
+
+            <!-- Feature grid, removed card styles -->
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <!-- Feature 1 -->
+                <div class="p-8 transform transition-all duration-300 hover:scale-105 group cursor-pointer">
+                    <div class="w-14 h-14 rounded-full bg-primary flex items-center justify-center mb-6 transition-all duration-300 group-hover:bg-dark mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-dark transition-colors duration-300 group-hover:text-light"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" /></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold font-heading text-dark group-hover:text-dark transition-colors duration-300">
+                        Quality
+                    </h3>
+                    <p class="text-muted mt-2 group-hover:text-gray-600 transition-colors duration-300">Premium materials and construction that stands the test of time.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="p-8 transform transition-all duration-300 hover:scale-105 group cursor-pointer">
+                    <div class="w-14 h-14 rounded-full bg-primary flex items-center justify-center mb-6 transition-all duration-300 group-hover:bg-dark mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-dark transition-colors duration-300 group-hover:text-light"><path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12a.75.75 0 00-.75-.75h-2.25a.75.75 0 01-.75-.75V7.5a.75.75 0 00-.75-.75H12a.75.75 0 01-.75-.75V3.375c0-1.036.84-1.875 1.875-1.875h-7.5z" /><path d="M18.75 21.75a.75.75 0 00.75-.75v-4.5a.75.75 0 00-.75-.75h-2.25a.75.75 0 00-.53.22l-.007.006-.002.002-.003.003-1.029 1.03a.75.75 0 000 1.06l1.03 1.03.003.003.002.002.006.007a.75.75 0 00.53.22h2.25z" /></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold font-heading text-dark group-hover:text-dark transition-colors duration-300">
+                        Innovation
+                    </h3>
+                    <p class="text-muted mt-2 group-hover:text-gray-600 transition-colors duration-300">Cutting-edge design and technology meets street culture.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="p-8 transform transition-all duration-300 hover:scale-105 group cursor-pointer">
+                    <div class="w-14 h-14 rounded-full bg-primary flex items-center justify-center mb-6 transition-all duration-300 group-hover:bg-dark mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-dark transition-colors duration-300 group-hover:text-light"><path fill-rule="evenodd" d="M14.47 2.067a.75.75 0 01.21.362l.006.027.915 4.394a.75.75 0 01-1.393.585L11.5 3.51l-.366 1.757a.75.75 0 01-1.393-.585l.917-4.394a.75.75 0 01.579-.652 49.309 49.309 0 015.335 6.78l-.348 1.666a.75.75 0 01-1.393-.585L16.5 7.51l.366-1.757a.75.75 0 011.393.585l-.917 4.394a.75.75 0 01-.579.652A49.309 49.309 0 0112 18.513V21a.75.75 0 01-1.5 0v-2.487a49.309 49.309 0 01-5.335-6.78l.348-1.666a.75.75 0 011.393.585L7.5 16.49l-.366 1.757a.75.75 0 01-1.393-.585l.917-4.394a.75.75 0 01.579-.652 49.309 49.309 0 015.335-6.78z" clip-rule="evenodd" /></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold font-heading text-dark group-hover:text-dark transition-colors duration-300">
+                        Community
+                    </h3>
+                    <p class="text-muted mt-2 group-hover:text-gray-600 transition-colors duration-300">Building culture together, one piece at a time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="bg-dark py-16">
+        <div class="container mx-auto px-6 text-center">
+            <!-- Heading -->
+            <h3 class="text-2xl font-extrabold text-white uppercase font-heading">
+                Stay in the Loop
+            </h3>
+            <p class="text-gray-400 mt-3 mb-8">
+                Get early access to new drops and exclusive content
+            </p>
+
+            <!-- Message Box -->
+            <div id="message-box" class="bg-primary text-dark font-bold py-3 px-6 rounded-lg max-w-md mx-auto mb-4 transition-all duration-500">
+                Thanks for subscribing!
+            </div>
+            
+            <!-- Form -->
+            <form id="newsletter-form" class="flex flex-col sm:flex-row justify-center gap-4 max-w-2xl mx-auto">
+                <input
+                    type="email"
+                    id="email-input"
+                    placeholder="Enter your email"
+                    class="px-4 py-3 rounded-md w-full sm:w-96 text-dark focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+                    required
+                />
+                <button
+                    type="submit"
+                    class="bg-primary text-dark px-8 py-3 font-semibold rounded-md hover:bg-white transition-all duration-300"
+                >
+                    SUBSCRIBE
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-dark text-white pt-20 pb-10">
+        <div class="container mx-auto px-6">
+            <!-- Top Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                
+                <!-- Brand -->
+                <div class="space-y-5">
+                    <h3 class="text-2xl font-heading font-bold">KRYVE</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        Redefining street culture through premium streetwear and authentic design.
+                    </p>
+                    <div class="flex gap-5 pt-2">
+                        <a href="#" class="hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-instagram fa-lg"></i>
+                        </a>
+                        <a href="#" class="hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-twitter fa-lg"></i>
+                        </a>
+                        <a href="#" class="hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-tiktok fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Shop -->
+                <div class="space-y-5">
+                    <h4 class="font-heading font-bold text-lg">SHOP</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#new-drops" class="hover:text-white transition-colors duration-300">New Arrivals</a></li>
+                        <li><a href="#collections" class="hover:text-white transition-colors duration-300">Collections</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Sale</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="space-y-5">
+                    <h4 class="font-heading font-bold text-lg">SUPPORT</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Size Guide</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Returns</a></li>
+                        <li><a href="./contact.html" class="hover:text-white transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div class="space-y-5">
+                    <h4 class="font-heading font-bold text-lg">COMPANY</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="./about.html" class="hover:text-white transition-colors duration-300">About</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Careers</a></li>
+                        <li><a href="./terms.html" class="hover:text-white transition-colors duration-300">Terms & Conditions</a></li>
+                        <li><a href="./privacy.html" class="hover:text-white transition-colors duration-300">Privacy Policy</a></li>
+                        <li><a href="./returns.html" class="hover:text-white transition-colors duration-300">Other Policies</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="border-t border-gray-700 pt-8 text-sm text-gray-400 text-center">
+                © 2025 KRYVE. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Link to the separate JavaScript file -->
+    <script src="./main.js"></script>
+
+</body>
+</html>
